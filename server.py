@@ -542,9 +542,16 @@ async def websocket_endpoint(ws: WebSocket):
                 else:
                     trader_name = data.get("trader", "Anonymous")
 
+                order_type = data.get("order_type", "limit")
+                if order_type == "market":
+                    # Extreme price to sweep the book
+                    price = 999999.99 if data["side"] == "BID" else 0.01
+                else:
+                    price = float(data["price"])
+
                 order = Order(
                     side=Side(data["side"]),
-                    price=float(data["price"]),
+                    price=price,
                     qty=int(data["qty"]),
                     trader=trader_name,
                     trader_id=trader_id,
