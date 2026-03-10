@@ -274,21 +274,6 @@ def seed_books():
     """Create empty orderbooks — let the market set prices."""
     for card in CARDS:
         books[card["id"]] = OrderBook(card_id=card["id"], fee_bps=150)
-        bp = card["base_price"]
-        for i in range(6):
-            bid_price = round(bp - 2 - i * (1 + random.random() * 2), 2)
-            ask_price = round(bp + 2 + i * (1 + random.random() * 2), 2)
-            book.submit_order(Order(
-                side=Side.BID, price=bid_price,
-                qty=random.randint(1, 4),
-                trader=random.choice(TRADERS),
-            ))
-            book.submit_order(Order(
-                side=Side.ASK, price=ask_price,
-                qty=random.randint(1, 4),
-                trader=random.choice(TRADERS),
-            ))
-        books[card["id"]] = book
 
 
 @asynccontextmanager
