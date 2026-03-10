@@ -230,9 +230,9 @@ class OrderBook:
 # Edit this list to add/remove/reprice cards.
 
 CARDS = [
-    {"id": "SV01-025-PSA10", "name": "Charizard ex SV",    "base_price": 285},
-    {"id": "SWSH12-GG70-PSA10", "name": "Giratina V Alt Art", "base_price": 165},
-    {"id": "SM12-SV49-PSA10", "name": "Charizard VMAX",    "base_price": 420},
+    {"id": "SV01-025-PSA10", "name": "Charizard ex SV"},
+    {"id": "SWSH12-GG70-PSA10", "name": "Giratina V Alt Art"},
+    {"id": "SM12-SV49-PSA10", "name": "Charizard VMAX"},
 ]
 
 TRADERS = ["KantoKid", "JohtoTrader", "HoennVault", "SinnohDeals",
@@ -271,10 +271,9 @@ books: dict[str, OrderBook] = {}
 
 
 def seed_books():
-    """Create orderbooks and seed with initial liquidity."""
-    import random
+    """Create empty orderbooks — let the market set prices."""
     for card in CARDS:
-        book = OrderBook(card_id=card["id"], fee_bps=150)
+        books[card["id"]] = OrderBook(card_id=card["id"], fee_bps=150)
         bp = card["base_price"]
         for i in range(6):
             bid_price = round(bp - 2 - i * (1 + random.random() * 2), 2)
